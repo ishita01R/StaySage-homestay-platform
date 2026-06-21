@@ -9,7 +9,8 @@ function Home() {
       <Navbar />
       <Hero />
 
-<div className="flex flex-wrap justify-center gap-8 py-16 px-6 bg-gray-100 min-h-[300px]">            <Card
+      <div className="flex flex-wrap justify-center gap-8 py-20 px-6 bg-gray-100 dark:bg-gray-950">
+        <Card
           title="AI Review Analysis"
           description="Analyze guest reviews using AI and understand customer feedback."
         />
