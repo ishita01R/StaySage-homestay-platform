@@ -3,9 +3,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import "./App.css";
 import ComponentDemo from "./pages/ComponentDemo";
-
+import "./App.css";
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/components" element={<ComponentDemo />} />
-        
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
