@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import reviewRating from "../assets/review-rating.png";
 
 const features = [
   {
@@ -39,7 +38,7 @@ const steps = [
 ];
 
 function FeatureIcon({ type }) {
-  const iconClass = "h-9 w-9 text-[#173f2d] dark:text-[#C89B3C]";
+  const iconClass = "h-7 w-7 text-[#173f2d] dark:text-[#C89B3C]";
 
   if (type === "review") {
     return (
@@ -121,7 +120,8 @@ function Home() {
     const section = document.getElementById("features");
 
     if (section) {
-      const sectionTop = section.getBoundingClientRect().top + window.scrollY - 110;
+      const sectionTop =
+        section.getBoundingClientRect().top + window.scrollY - 110;
 
       window.scrollTo({
         top: sectionTop,
@@ -145,27 +145,27 @@ function Home() {
       <Navbar />
 
       <main>
-        <section id="home" className="relative scroll-mt-28 pt-20">
-          <div className="mx-auto grid max-w-[90rem] items-center gap-20 px-6 py-20 sm:px-10 lg:px-20 md:grid-cols-2">
+        <section id="home" className="relative scroll-mt-28 px-6 pb-12 pt-28">
+          <div className="mx-auto grid max-w-[78rem] items-center gap-9 md:min-h-[calc(100vh-8rem)] md:grid-cols-[0.95fr_1.05fr]">
             <div>
-              <p className="mb-8 inline-flex rounded-full border border-[#C89B3C]/40 bg-white/80 px-6 py-3 text-base font-extrabold text-[#173f2d] shadow-sm backdrop-blur-md dark:border-[#C89B3C]/50 dark:bg-white/10 dark:text-[#C89B3C]">
+              <p className="mb-4 inline-flex rounded-full border border-[#C89B3C]/40 bg-white/85 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-[#173f2d] shadow-sm backdrop-blur-md dark:border-[#C89B3C]/50 dark:bg-white/10 dark:text-[#C89B3C]">
                 AI-powered hospitality operations
               </p>
 
-              <h1 className="font-heading mb-8 text-6xl font-extrabold leading-[1.05] text-[#173f2d] dark:text-white md:text-8xl">
+              <h1 className="font-heading mb-5 max-w-2xl text-4xl font-extrabold leading-[1.08] text-[#173f2d] dark:text-white md:text-5xl lg:text-6xl">
                 Turn Guest Feedback Into Better Hospitality
               </h1>
 
-              <p className="mb-10 max-w-2xl text-2xl leading-10 text-slate-700 dark:text-slate-300">
+              <p className="mb-7 max-w-xl text-base leading-8 text-slate-800 dark:text-slate-300 md:text-lg">
                 StaySage helps homestays and small hotels analyse guest reviews,
                 manage QR-based service requests, and convert complaints into
                 trackable staff tasks.
               </p>
 
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   to="/dashboard"
-                  className="rounded-full bg-[#173f2d] px-10 py-4 text-center text-lg font-extrabold text-white shadow-xl shadow-green-950/20 transition hover:-translate-y-1 hover:bg-[#0f2f22]"
+                  className="rounded-full bg-[#173f2d] px-7 py-3 text-center text-sm font-extrabold text-white shadow-xl shadow-green-950/20 transition hover:-translate-y-1 hover:bg-[#0f2f22] md:text-base"
                 >
                   Try Demo
                 </Link>
@@ -173,49 +173,51 @@ function Home() {
                 <button
                   type="button"
                   onClick={scrollToFeatures}
-                  className="rounded-full border border-[#C89B3C]/50 bg-white/85 px-10 py-4 text-center text-lg font-extrabold text-[#173f2d] shadow-sm backdrop-blur transition hover:-translate-y-1 hover:bg-white dark:border-white/30 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+                  className="rounded-full border border-[#C89B3C]/50 bg-white/85 px-7 py-3 text-center text-sm font-extrabold text-[#173f2d] shadow-sm backdrop-blur transition hover:-translate-y-1 hover:bg-white dark:border-white/30 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 md:text-base"
                 >
                   Explore Features
                 </button>
               </div>
             </div>
 
-            <div className="rounded-[1.6rem] border border-white/80 bg-white/80 p-5 shadow-2xl backdrop-blur-xl dark:border-white/20 dark:bg-white/20">
-              <div className="overflow-hidden rounded-[2rem] bg-white text-slate-900 shadow-xl">
+            <div className="mx-auto w-full max-w-[30rem] rounded-[1.4rem] border border-white/80 bg-white/85 p-3 shadow-2xl backdrop-blur-xl dark:border-white/20 dark:bg-white/20">
+              <div className="overflow-hidden rounded-[1.2rem] bg-white text-slate-900 shadow-xl">
                 <img
                   src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1400&q=80"
                   alt="Hotel dashboard preview"
-                  className="h-80 w-full object-cover"
+                  className="h-32 w-full object-cover md:h-36 lg:h-40"
                 />
 
-                <div className="p-8">
-                  <div className="mb-8 flex items-center justify-between">
+                <div className="p-3">
+                  <div className="mb-3 flex items-center justify-between gap-3">
                     <div>
-                      <h3 className="text-3xl font-extrabold text-[#173f2d]">
+                      <h3 className="text-lg font-extrabold text-[#173f2d] md:text-xl">
                         Today's Overview
                       </h3>
-                      <p className="mt-2 text-base font-medium text-slate-500">
+
+                      <p className="mt-1 text-xs font-medium text-slate-500 md:text-sm">
                         Review insights and staff tasks
                       </p>
                     </div>
 
-                    <span className="rounded-full bg-[#C89B3C]/20 px-5 py-2 text-sm font-extrabold text-[#9f7728]">
+                    <span className="rounded-full bg-[#C89B3C]/20 px-3 py-1.5 text-xs font-extrabold text-[#9f7728]">
                       Live
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-cols-2 gap-2.5">
                     {[
                       ["120+", "Reviews Analysed"],
                       ["18", "Negative Reviews"],
                       ["07", "Pending Tasks"],
                       ["42", "Completed Tasks"],
                     ].map(([value, label]) => (
-                      <div key={label} className="rounded-3xl bg-[#fff4e6] p-6">
-                        <p className="text-4xl font-extrabold text-[#173f2d]">
+                      <div key={label} className="rounded-xl bg-[#fff4e6] p-2.5">
+                        <p className="text-xl font-extrabold text-[#173f2d]">
                           {value}
                         </p>
-                        <p className="mt-2 text-sm font-semibold text-slate-500">
+
+                        <p className="mt-1 text-[11px] font-semibold text-slate-500">
                           {label}
                         </p>
                       </div>
@@ -227,26 +229,26 @@ function Home() {
           </div>
         </section>
 
-        <section className="px-6 py-28">
-          <div className="mx-auto max-w-7xl rounded-[3rem] border border-white/70 bg-white/85 p-8 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/85 md:p-14">
-            <div className="grid items-center gap-14 md:grid-cols-2">
+        <section className="px-6 py-14">
+          <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/70 bg-white/88 p-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/85 md:p-10">
+            <div className="grid items-center gap-10 md:grid-cols-2">
               <div>
-                <p className="mb-4 text-base font-extrabold uppercase tracking-widest text-[#C89B3C]">
+                <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-[#C89B3C]">
                   The Problem
                 </p>
 
-                <h2 className="font-heading text-5xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-7xl">
+                <h2 className="font-heading text-3xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-5xl">
                   Small hotels lose guest trust when issues are missed.
                 </h2>
 
-                <p className="mt-7 text-xl leading-10 text-slate-700 dark:text-slate-300">
+                <p className="mt-5 text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
                   Many homestays still manage reviews, complaints, and staff work
                   manually. This makes it easy to miss guest issues, delay
                   service, and repeat the same mistakes.
                 </p>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 {[
                   "Manual review checking",
                   "Missed guest complaints",
@@ -255,13 +257,13 @@ function Home() {
                 ].map((item, index) => (
                   <div
                     key={item}
-                    className="rounded-[2rem] border border-[#f3dec3] bg-[#fff8ef] p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-950"
+                    className="rounded-[1.5rem] border border-[#f3dec3] bg-[#fff8ef] p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-950"
                   >
-                    <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#C89B3C]/15 text-lg font-extrabold text-[#173f2d] dark:bg-white/10 dark:text-[#C89B3C]">
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#C89B3C]/15 text-sm font-extrabold text-[#173f2d] dark:bg-white/10 dark:text-[#C89B3C]">
                       0{index + 1}
                     </div>
 
-                    <h3 className="text-xl font-extrabold text-[#173f2d] dark:text-white">
+                    <h3 className="text-base font-extrabold text-[#173f2d] dark:text-white">
                       {item}
                     </h3>
                   </div>
@@ -271,38 +273,38 @@ function Home() {
           </div>
         </section>
 
-        <section id="features" className="scroll-mt-28 px-6 py-28">
+        <section id="features" className="scroll-mt-28 px-6 py-14">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-16 rounded-[3rem] border border-white/70 bg-white/85 p-10 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/85">
-              <p className="mb-4 text-base font-extrabold uppercase tracking-widest text-[#C89B3C]">
+            <div className="mb-10 rounded-[2rem] border border-white/70 bg-white/88 p-6 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/85 md:p-9">
+              <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-[#C89B3C]">
                 Features
               </p>
 
-              <h2 className="font-heading max-w-4xl text-5xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-7xl">
+              <h2 className="font-heading max-w-4xl text-3xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-5xl">
                 Built to help hotel teams act faster.
               </h2>
 
-              <p className="mt-7 max-w-4xl text-xl leading-10 text-slate-700 dark:text-slate-300">
+              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
                 StaySage connects guest feedback, service requests, and staff
                 tasks into one simple platform for small hospitality teams.
               </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-5 md:grid-cols-2">
               {features.map((feature) => (
                 <div
                   key={feature.title}
-                  className="rounded-[2.5rem] border border-white/70 bg-white/90 p-10 shadow-xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-2xl dark:border-white/10 dark:bg-slate-900/90"
+                  className="rounded-[1.7rem] border border-white/70 bg-white/90 p-6 shadow-xl backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-2xl dark:border-white/10 dark:bg-slate-900/90"
                 >
-                  <div className="mb-7 flex h-20 w-20 items-center justify-center rounded-3xl bg-[#fff4e6] shadow-sm dark:bg-slate-950">
+                  <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fff4e6] shadow-sm dark:bg-slate-950">
                     <FeatureIcon type={feature.icon} />
                   </div>
 
-                  <h3 className="mb-4 text-3xl font-extrabold text-[#173f2d] dark:text-white">
+                  <h3 className="mb-2 text-xl font-extrabold text-[#173f2d] dark:text-white">
                     {feature.title}
                   </h3>
 
-                  <p className="text-lg leading-9 text-slate-700 dark:text-slate-300">
+                  <p className="text-sm leading-7 text-slate-700 dark:text-slate-300 md:text-base">
                     {feature.description}
                   </p>
                 </div>
@@ -311,34 +313,34 @@ function Home() {
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-mt-28 px-6 py-28">
-          <div className="mx-auto max-w-7xl rounded-[3rem] border border-white/70 bg-[#f7efe5]/90 p-10 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 md:p-14">
-            <div className="mb-16 max-w-4xl">
-              <p className="mb-4 text-base font-extrabold uppercase tracking-widest text-[#C89B3C]">
+        <section id="how-it-works" className="scroll-mt-28 px-6 py-14">
+          <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/70 bg-[#f7efe5]/90 p-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 md:p-10">
+            <div className="mb-10 max-w-4xl">
+              <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-[#C89B3C]">
                 How It Works
               </p>
 
-              <h2 className="font-heading text-5xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-7xl">
+              <h2 className="font-heading text-3xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-5xl">
                 From reviews to real action.
               </h2>
 
-              <p className="mt-7 text-xl leading-10 text-slate-700 dark:text-slate-300">
+              <p className="mt-5 text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
                 StaySage helps hotel teams understand problems, assign tasks,
                 and improve guest experience with a clear workflow.
               </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-5">
+            <div className="grid gap-4 md:grid-cols-5">
               {steps.map((step, index) => (
                 <div
                   key={step}
-                  className="rounded-[2rem] border border-white/70 bg-white/90 p-8 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/5"
+                  className="rounded-[1.5rem] border border-white/70 bg-white/90 p-5 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/5"
                 >
-                  <div className="mb-7 flex h-14 w-14 items-center justify-center rounded-full bg-[#173f2d] text-lg font-extrabold text-white">
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#173f2d] text-sm font-extrabold text-white">
                     {index + 1}
                   </div>
 
-                  <p className="text-lg font-bold leading-8 text-slate-800 dark:text-slate-200">
+                  <p className="text-sm font-bold leading-6 text-slate-800 dark:text-slate-200">
                     {step}
                   </p>
                 </div>
@@ -347,74 +349,74 @@ function Home() {
           </div>
         </section>
 
-        <section className="px-6 py-28">
-          <div className="mx-auto grid max-w-7xl items-center gap-16 rounded-[3rem] border border-white/70 bg-white/85 p-8 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 md:grid-cols-2 md:p-14">
+        <section className="px-6 py-14">
+          <div className="mx-auto grid max-w-7xl items-center gap-10 rounded-[2rem] border border-white/70 bg-white/88 p-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 md:grid-cols-2 md:p-10">
             <div>
-              <p className="mb-4 text-base font-extrabold uppercase tracking-widest text-[#C89B3C]">
+              <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-[#C89B3C]">
                 QR Guest Requests
               </p>
 
-              <h2 className="font-heading mb-7 text-5xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-7xl">
+              <h2 className="font-heading mb-5 text-3xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-5xl">
                 Let guests report issues without calling reception.
               </h2>
 
-              <p className="mb-8 text-xl leading-10 text-slate-700 dark:text-slate-300">
+              <p className="mb-6 text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
                 Guests can scan a QR code placed inside the room and submit
                 requests like cleaning, towels, food, hot water, or maintenance.
                 The request directly becomes a task for the hotel team.
               </p>
 
-              <div className="rounded-[2rem] bg-[#fff4e6] p-8 shadow-sm dark:bg-slate-950">
-                <p className="mb-4 text-lg font-extrabold text-[#173f2d] dark:text-white">
+              <div className="rounded-[1.5rem] bg-[#fff4e6] p-5 shadow-sm dark:bg-slate-950">
+                <p className="mb-3 text-sm font-extrabold text-[#173f2d] dark:text-white">
                   Example guest request
                 </p>
 
-                <p className="rounded-3xl bg-white p-6 text-lg font-medium text-slate-700 shadow-sm dark:bg-slate-900 dark:text-slate-300">
+                <p className="rounded-2xl bg-white p-4 text-sm font-medium text-slate-700 shadow-sm dark:bg-slate-900 dark:text-slate-300 md:text-base">
                   Hot water is not coming in Room 204.
                 </p>
 
-                <p className="mt-5 text-base font-extrabold text-[#173f2d] dark:text-[#C89B3C]">
+                <p className="mt-3 text-xs font-extrabold text-[#173f2d] dark:text-[#C89B3C] md:text-sm">
                   Created task: Maintenance · High Priority · Room 204
                 </p>
               </div>
             </div>
 
-            <div className="rounded-[2rem] bg-[#fff4e6] p-5 shadow-xl dark:bg-slate-950">
+            <div className="rounded-[1.5rem] bg-[#fff4e6] p-4 shadow-xl dark:bg-slate-950">
               <img
                 src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80"
                 alt="Guest using phone"
-                className="h-[560px] w-full rounded-[1.5rem] object-cover"
+                className="h-[340px] w-full rounded-[1.2rem] object-cover md:h-[380px]"
               />
             </div>
           </div>
         </section>
 
-        <section className="px-6 py-28">
-          <div className="mx-auto grid max-w-7xl items-center gap-16 rounded-[3rem] border border-white/70 bg-white/85 p-8 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 md:grid-cols-2 md:p-14">
-            <div className="rounded-[2rem] bg-[#fff4e6] p-5 shadow-xl dark:bg-slate-950">
+        <section className="px-6 py-14">
+          <div className="mx-auto grid max-w-7xl items-center gap-10 rounded-[2rem] border border-white/70 bg-white/88 p-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 md:grid-cols-2 md:p-10">
+            <div className="rounded-[1.5rem] bg-[#fff4e6] p-4 shadow-xl dark:bg-slate-950">
               <img
                 src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1400&q=80"
                 alt="Homely hotel room"
-                className="h-[560px] w-full rounded-[1.5rem] object-cover"
+                className="h-[340px] w-full rounded-[1.2rem] object-cover md:h-[380px]"
               />
             </div>
 
             <div>
-              <p className="mb-4 text-base font-extrabold uppercase tracking-widest text-[#C89B3C]">
+              <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-[#C89B3C]">
                 About StaySage
               </p>
 
-              <h2 className="font-heading mb-7 text-5xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-7xl">
+              <h2 className="font-heading mb-5 text-3xl font-extrabold leading-tight text-[#173f2d] dark:text-white md:text-5xl">
                 Built for homestays, boutique hotels, and small resorts.
               </h2>
 
-              <p className="mb-6 text-xl leading-10 text-slate-700 dark:text-slate-300">
+              <p className="mb-4 text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
                 StaySage is designed for hotel owners and managers who want a
                 simple way to understand guest feedback and improve service
                 quality.
               </p>
 
-              <p className="text-xl leading-10 text-slate-700 dark:text-slate-300">
+              <p className="text-base leading-8 text-slate-700 dark:text-slate-300 md:text-lg">
                 It combines AI review analysis with task management so
                 complaints do not remain only as feedback. They become action.
               </p>
@@ -422,20 +424,20 @@ function Home() {
           </div>
         </section>
 
-        <section className="px-6 py-28">
-          <div className="mx-auto max-w-6xl rounded-[3rem] bg-gradient-to-r from-[#173f2d] via-[#1f5a40] to-[#C89B3C] px-10 py-24 text-center text-white shadow-2xl">
-            <h2 className="font-heading mb-7 text-5xl font-extrabold leading-tight md:text-7xl">
+        <section className="px-6 py-14">
+          <div className="mx-auto max-w-5xl rounded-[2rem] bg-gradient-to-r from-[#173f2d] via-[#1f5a40] to-[#C89B3C] px-6 py-12 text-center text-white shadow-2xl md:px-8 md:py-14">
+            <h2 className="font-heading mb-5 text-3xl font-extrabold leading-tight md:text-5xl">
               Ready to improve your guest experience?
             </h2>
 
-            <p className="mx-auto mb-10 max-w-3xl text-2xl leading-10 text-green-50">
+            <p className="mx-auto mb-7 max-w-2xl text-base leading-8 text-green-50 md:text-lg">
               Start using StaySage to analyse reviews, handle guest requests,
               and manage hotel tasks from one simple dashboard.
             </p>
 
             <Link
               to="/dashboard"
-              className="inline-flex rounded-full bg-white px-12 py-4 text-xl font-extrabold text-[#173f2d] transition hover:-translate-y-1 hover:bg-[#fff4e6]"
+              className="inline-flex rounded-full bg-white px-8 py-3 text-base font-extrabold text-[#173f2d] transition hover:-translate-y-1 hover:bg-[#fff4e6]"
             >
               Try Demo
             </Link>

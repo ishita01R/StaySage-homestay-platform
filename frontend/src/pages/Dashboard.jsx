@@ -1,121 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const stats = [
-  {
-    label: "Reviews Analysed",
-    value: "120+",
-    note: "This month",
-  },
-  {
-    label: "Negative Reviews",
-    value: "18",
-    note: "Need attention",
-  },
-  {
-    label: "Pending Tasks",
-    value: "07",
-    note: "Staff action needed",
-  },
-  {
-    label: "Completed Tasks",
-    value: "42",
-    note: "Resolved issues",
-  },
-];
-
-const sampleReviews = [
-  {
-    guest: "Aarav Mehta",
-    room: "204",
-    review:
-      "The room was clean and comfortable, but hot water was not available in the morning.",
-    sentiment: "Negative",
-    issue: "Hot Water",
-    priority: "High",
-    department: "Maintenance",
-    reply:
-      "We are sorry for the inconvenience. Our team will check the hot water issue immediately and make sure it is fixed.",
-  },
-  {
-    guest: "Priya Sharma",
-    room: "106",
-    review:
-      "The stay was peaceful, but room cleaning was delayed and towels were missing.",
-    sentiment: "Mixed",
-    issue: "Housekeeping",
-    priority: "Medium",
-    department: "Housekeeping",
-    reply:
-      "Thank you for your feedback. We will improve our housekeeping response time and ensure towels are provided on time.",
-  },
-  {
-    guest: "Rahul Verma",
-    room: "301",
-    review:
-      "The food was good and staff was polite. The check-in process was also smooth.",
-    sentiment: "Positive",
-    issue: "No major issue",
-    priority: "Low",
-    department: "Front Desk",
-    reply:
-      "Thank you for your kind words. We are happy that you enjoyed your stay and hope to welcome you again.",
-  },
-];
-
-const guestRequests = [
-  {
-    room: "204",
-    request: "Hot water is not coming",
-    time: "10:15 AM",
-    priority: "High",
-  },
-  {
-    room: "106",
-    request: "Need extra towels",
-    time: "11:30 AM",
-    priority: "Medium",
-  },
-  {
-    room: "301",
-    request: "Food delivery request",
-    time: "12:05 PM",
-    priority: "Low",
-  },
-];
-
-const tasks = [
-  {
-    task: "Fix hot water issue",
-    room: "204",
-    department: "Maintenance",
-    status: "Pending",
-    priority: "High",
-  },
-  {
-    task: "Send extra towels",
-    room: "106",
-    department: "Housekeeping",
-    status: "In Progress",
-    priority: "Medium",
-  },
-  {
-    task: "Check food delivery request",
-    room: "301",
-    department: "Kitchen",
-    status: "Completed",
-    priority: "Low",
-  },
-  {
-    task: "Clean room before next check-in",
-    room: "208",
-    department: "Housekeeping",
-    status: "Pending",
-    priority: "Medium",
-  },
-];
+const API_BASE_URL = "http://localhost:5000";
 
 const activities = [
   "New review analysed from Room 204",
@@ -125,8 +13,51 @@ const activities = [
 ];
 
 function Dashboard() {
-  const [selectedReview, setSelectedReview] = useState(sampleReviews[0]);
+  const [stats, setStats] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [guestRequests, setGuestRequests] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [selectedReview, setSelectedReview] = useState(null);
   const [taskCreated, setTaskCreated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const [statsRes, reviewsRes, requestsRes, tasksRes] = await Promise.all([
+        fetch(`${API_BASE_URL}/api/stats`),
+        fetch(`${API_BASE_URL}/api/reviews`),
+        fetch(`${API_BASE_URL}/api/requests`),
+        fetch(`${API_BASE_URL}/api/tasks`),
+      ]);
+
+      if (!statsRes.ok || !reviewsRes.ok || !requestsRes.ok || !tasksRes.ok) {
+        throw new Error("Failed to fetch dashboard data");
+      }
+
+      const statsData = await statsRes.json();
+      const reviewsData = await reviewsRes.json();
+      const requestsData = await requestsRes.json();
+      const tasksData = await tasksRes.json();
+
+      setStats(statsData.data);
+      setReviews(reviewsData.data);
+      setGuestRequests(requestsData.data);
+      setTasks(tasksData.data);
+      setSelectedReview(reviewsData.data[0]);
+    } catch (err) {
+      setError("Backend connection failed. Please check if server is running.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
   const getPriorityStyle = (priority) => {
     if (priority === "High") {
@@ -151,6 +82,97 @@ function Dashboard() {
 
     return "bg-orange-100 text-orange-700";
   };
+
+  const statCards = [
+    {
+      label: "Reviews Analysed",
+      value: stats?.totalReviews || 0,
+      note: "From backend API",
+    },
+    {
+      label: "Negative Reviews",
+      value: stats?.negativeReviews || 0,
+      note: "Need attention",
+    },
+    {
+      label: "Pending Tasks",
+      value: stats?.pendingTasks || 0,
+      note: "Staff action needed",
+    },
+    {
+      label: "Completed Tasks",
+      value: stats?.completedTasks || 0,
+      note: "Resolved issues",
+    },
+  ];
+
+  if (loading) {
+    return (
+      <div className="relative isolate min-h-screen overflow-hidden text-slate-900 dark:text-white">
+        <div className="fixed inset-0 -z-20">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85"
+            alt="Homely hotel background"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="fixed inset-0 -z-10 bg-[#fff7ed]/88 backdrop-blur-[2px] dark:bg-slate-950/90" />
+
+        <Navbar />
+
+        <main className="flex min-h-screen items-center justify-center px-6 pt-28">
+          <div className="rounded-[2rem] border border-white/70 bg-white/90 p-10 text-center shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90">
+            <div className="mx-auto mb-6 h-14 w-14 animate-spin rounded-full border-4 border-[#C89B3C] border-t-transparent"></div>
+
+            <h2 className="text-3xl font-extrabold text-[#173f2d] dark:text-white">
+              Loading StaySage dashboard...
+            </h2>
+
+            <p className="mt-3 text-lg font-semibold text-slate-600 dark:text-slate-300">
+              Fetching live data from backend API.
+            </p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="relative isolate min-h-screen overflow-hidden text-slate-900 dark:text-white">
+        <div className="fixed inset-0 -z-20">
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=85"
+            alt="Homely hotel background"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="fixed inset-0 -z-10 bg-[#fff7ed]/88 backdrop-blur-[2px] dark:bg-slate-950/90" />
+
+        <Navbar />
+
+        <main className="flex min-h-screen items-center justify-center px-6 pt-28">
+          <div className="max-w-2xl rounded-[2rem] border border-red-200 bg-red-50 p-10 text-center shadow-2xl">
+            <h2 className="text-3xl font-extrabold text-red-700">
+              Backend Connection Error
+            </h2>
+
+            <p className="mt-4 text-lg font-semibold text-red-600">{error}</p>
+
+            <button
+              type="button"
+              onClick={fetchDashboardData}
+              className="mt-8 rounded-full bg-[#173f2d] px-8 py-4 text-lg font-extrabold text-white"
+            >
+              Try Again
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="relative isolate min-h-screen overflow-hidden text-slate-900 dark:text-white">
@@ -179,8 +201,8 @@ function Dashboard() {
               </h1>
 
               <p className="mt-5 max-w-3xl text-xl leading-9 text-slate-700 dark:text-slate-300">
-                This demo shows how StaySage analyses guest reviews, detects
-                issues, creates staff tasks, and tracks hotel service work.
+                This demo shows live backend data for guest reviews, QR
+                requests, staff tasks, and dashboard statistics.
               </p>
             </div>
 
@@ -193,7 +215,7 @@ function Dashboard() {
           </div>
 
           <div className="mb-10 grid gap-6 md:grid-cols-4">
-            {stats.map((item) => (
+            {statCards.map((item) => (
               <div
                 key={item.label}
                 className="rounded-[2rem] border border-white/70 bg-white/90 p-7 shadow-xl backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90"
@@ -226,16 +248,16 @@ function Dashboard() {
               </div>
 
               <div className="mb-8 grid gap-4 md:grid-cols-3">
-                {sampleReviews.map((review) => (
+                {reviews.map((review) => (
                   <button
-                    key={review.guest}
+                    key={review.id}
                     type="button"
                     onClick={() => {
                       setSelectedReview(review);
                       setTaskCreated(false);
                     }}
                     className={`rounded-[1.5rem] border p-5 text-left transition hover:-translate-y-1 ${
-                      selectedReview.guest === review.guest
+                      selectedReview?.id === review.id
                         ? "border-[#C89B3C] bg-[#fff4e6]"
                         : "border-[#f3dec3] bg-white dark:border-white/10 dark:bg-slate-950"
                     }`}
@@ -251,91 +273,96 @@ function Dashboard() {
                 ))}
               </div>
 
-              <div className="rounded-[2rem] bg-[#fff8ef] p-7 dark:bg-slate-950">
-                <p className="mb-4 text-base font-extrabold text-[#173f2d] dark:text-[#C89B3C]">
-                  Guest Review
-                </p>
+              {selectedReview && (
+                <>
+                  <div className="rounded-[2rem] bg-[#fff8ef] p-7 dark:bg-slate-950">
+                    <p className="mb-4 text-base font-extrabold text-[#173f2d] dark:text-[#C89B3C]">
+                      Guest Review
+                    </p>
 
-                <p className="rounded-3xl bg-white p-6 text-lg font-medium leading-8 text-slate-700 shadow-sm dark:bg-slate-900 dark:text-slate-300">
-                  “{selectedReview.review}”
-                </p>
-              </div>
+                    <p className="rounded-3xl bg-white p-6 text-lg font-medium leading-8 text-slate-700 shadow-sm dark:bg-slate-900 dark:text-slate-300">
+                      “{selectedReview.review}”
+                    </p>
+                  </div>
 
-              <div className="mt-8 grid gap-5 md:grid-cols-2">
-                <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
-                    Sentiment
-                  </p>
+                  <div className="mt-8 grid gap-5 md:grid-cols-2">
+                    <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
+                      <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
+                        Sentiment
+                      </p>
 
-                  <h3 className="mt-3 text-3xl font-extrabold text-[#173f2d] dark:text-white">
-                    {selectedReview.sentiment}
-                  </h3>
-                </div>
+                      <h3 className="mt-3 text-3xl font-extrabold text-[#173f2d] dark:text-white">
+                        {selectedReview.sentiment}
+                      </h3>
+                    </div>
 
-                <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
-                    Issue Found
-                  </p>
+                    <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
+                      <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
+                        Issue Found
+                      </p>
 
-                  <h3 className="mt-3 text-3xl font-extrabold text-[#173f2d] dark:text-white">
-                    {selectedReview.issue}
-                  </h3>
-                </div>
+                      <h3 className="mt-3 text-3xl font-extrabold text-[#173f2d] dark:text-white">
+                        {selectedReview.issue}
+                      </h3>
+                    </div>
 
-                <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
-                    Department
-                  </p>
+                    <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
+                      <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
+                        Department
+                      </p>
 
-                  <h3 className="mt-3 text-3xl font-extrabold text-[#173f2d] dark:text-white">
-                    {selectedReview.department}
-                  </h3>
-                </div>
+                      <h3 className="mt-3 text-3xl font-extrabold text-[#173f2d] dark:text-white">
+                        {selectedReview.department}
+                      </h3>
+                    </div>
 
-                <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
-                    Priority
-                  </p>
+                    <div className="rounded-[2rem] bg-white p-6 shadow-sm dark:bg-slate-950">
+                      <p className="text-sm font-extrabold uppercase tracking-widest text-[#C89B3C]">
+                        Priority
+                      </p>
 
-                  <span
-                    className={`mt-3 inline-flex rounded-full px-5 py-2 text-base font-extrabold ${getPriorityStyle(
-                      selectedReview.priority
-                    )}`}
+                      <span
+                        className={`mt-3 inline-flex rounded-full px-5 py-2 text-base font-extrabold ${getPriorityStyle(
+                          selectedReview.priority
+                        )}`}
+                      >
+                        {selectedReview.priority}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 rounded-[2rem] bg-[#173f2d] p-7 text-white shadow-xl">
+                    <p className="mb-3 text-base font-extrabold text-[#C89B3C]">
+                      Suggested Management Reply
+                    </p>
+
+                    <p className="text-lg leading-8 text-green-50">
+                      {selectedReview.suggestedReply}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setTaskCreated(true)}
+                    className="mt-8 rounded-full bg-[#173f2d] px-10 py-4 text-lg font-extrabold text-white shadow-xl shadow-green-950/20 transition hover:-translate-y-1 hover:bg-[#0f2f22]"
                   >
-                    {selectedReview.priority}
-                  </span>
-                </div>
-              </div>
+                    Convert Review Into Task
+                  </button>
 
-              <div className="mt-8 rounded-[2rem] bg-[#173f2d] p-7 text-white shadow-xl">
-                <p className="mb-3 text-base font-extrabold text-[#C89B3C]">
-                  Suggested Management Reply
-                </p>
+                  {taskCreated && (
+                    <div className="mt-6 rounded-[2rem] border border-green-200 bg-green-50 p-6 text-green-800">
+                      <p className="text-lg font-extrabold">
+                        Task created successfully
+                      </p>
 
-                <p className="text-lg leading-8 text-green-50">
-                  {selectedReview.reply}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setTaskCreated(true)}
-                className="mt-8 rounded-full bg-[#173f2d] px-10 py-4 text-lg font-extrabold text-white shadow-xl shadow-green-950/20 transition hover:-translate-y-1 hover:bg-[#0f2f22]"
-              >
-                Convert Review Into Task
-              </button>
-
-              {taskCreated && (
-                <div className="mt-6 rounded-[2rem] border border-green-200 bg-green-50 p-6 text-green-800">
-                  <p className="text-lg font-extrabold">
-                    Task created successfully
-                  </p>
-
-                  <p className="mt-2 text-base font-semibold">
-                    {selectedReview.issue} issue assigned to{" "}
-                    {selectedReview.department} for Room {selectedReview.room}.
-                  </p>
-                </div>
+                      <p className="mt-2 text-base font-semibold">
+                        {selectedReview.issue} issue assigned to{" "}
+                        {selectedReview.department} for Room{" "}
+                        {selectedReview.room}.
+                      </p>
+                    </div>
+                  )}
+                </>
               )}
             </section>
 
@@ -352,7 +379,7 @@ function Dashboard() {
                 <div className="space-y-4">
                   {guestRequests.map((request) => (
                     <div
-                      key={request.room}
+                      key={request.id}
                       className="rounded-[1.5rem] bg-[#fff8ef] p-5 dark:bg-slate-950"
                     >
                       <div className="mb-3 flex items-center justify-between">
@@ -424,14 +451,14 @@ function Dashboard() {
 
               <p className="max-w-2xl text-lg leading-8 text-slate-700 dark:text-slate-300">
                 Every review problem or QR request becomes a clear task for the
-                right hotel department.
+                right hotel department. This task data is coming from the backend.
               </p>
             </div>
 
             <div className="grid gap-5 md:grid-cols-2">
               {tasks.map((item) => (
                 <div
-                  key={`${item.task}-${item.room}`}
+                  key={item.id}
                   className="rounded-[2rem] border border-[#f3dec3] bg-[#fff8ef] p-6 shadow-sm dark:border-white/10 dark:bg-slate-950"
                 >
                   <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
